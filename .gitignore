@@ -1,0 +1,19 @@
+# OS stuff #
+################
+.DS_store
+
+# Others #
+################
+*.idea
+*.pyc
+*.spec
+tmp/
+build/
+dist/
+asp.txt.tmp
+conflict_tester.txt
+what_if.txt
+original_asp_program.txt
+Input.txt
+input_nqueens.py
+*.so
