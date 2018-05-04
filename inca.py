@@ -1163,7 +1163,7 @@ def what_if_delete():
     start = '\033[95m'
     end = '\033[0m'
     diagnosis.create_original(list_of_added_knowledge, asp_file_name)
-    tmp_asp_path = asp_file_name[:asp_file_name.rfind("\\") + 1]
+    tmp_asp_path = asp_file_name[:asp_file_name.rfind(os.sep) + 1]
     tmp_asp_file = tmp_asp_path + "what_if.txt"
     if os.path.exists(tmp_asp_file):
         os.remove(tmp_asp_file)
@@ -1307,11 +1307,13 @@ def main():
         else:
             was_unsat_inspection()
 
+
 def is_valid_file(parser, arg):
     if not os.path.exists(arg):
         parser.error("The file %s does not exist!" % arg)
     else:
         return arg
+
 
 if __name__ == '__main__':
     main()

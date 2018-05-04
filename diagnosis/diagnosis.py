@@ -440,7 +440,7 @@ def create_original(original_list_of_options, asp_path):
     :return: 
     """
     # prepare a copy of the current asp program to analyze
-    tmp_asp_file = asp_path[:asp_path.rfind("\\") + 1] + "original_asp_program.txt"
+    tmp_asp_file = asp_path[:asp_path.rfind(os.sep) + 1] + "original_asp_program.txt"
     if os.path.exists(tmp_asp_file):
         os.remove(tmp_asp_file)
 
