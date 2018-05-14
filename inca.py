@@ -1005,9 +1005,10 @@ def handle_input(asp_file_name):
                                 asp_file.write("\n" + ":- " + negate(i))
                                 list_of_added_knowledge.append(i)
                         asp_file.close()
-                        # here was list_of_models = []
+
+                        start = datetime.datetime.now()
                         ret = translator(asp_file_name, True)
-                        # if (ret.upper()).strip() == "SAT":
+                        print(datetime.datetime.now() - start)
 
                         if (ret.upper()).strip() != "SAT" and was_sat:
                             was_sat_inspection(asp_file_name, input_list)
@@ -1021,9 +1022,7 @@ def handle_input(asp_file_name):
                                     tmp_set = tmp_set.difference(set(logs[len(logs)-i]))
                                     i += 1
                                 logs.append(list(tmp_set))
-                            # for i in logs:
-                            #     print(i)
-                            #     print(len(i))
+
                         first_run = False
                     else:
                         if list_of_added_knowledge:
@@ -1053,7 +1052,6 @@ def handle_input(asp_file_name):
                 input_list = add_point(handle_input_negation(input_list))
                 del_function(asp_file_name, input_list)
                 translator(asp_file_name, False)
-                # fi shi bdo idafe hon bi mawdou33 first run
 
             elif "#how" in input_text.lower():
                 input_text = input_text[4:]
@@ -1292,7 +1290,9 @@ def main():
                         type=lambda x: is_valid_file(parser, x))
     args = parser.parse_args()
     asp_file_name = args.filename
+    start = datetime.datetime.now()
     res = translator(asp_file_name, True)
+    print(datetime.datetime.now() - start)
     if conf_pr:
         if res == "SAT":
             was_sat = True
