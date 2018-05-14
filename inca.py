@@ -87,14 +87,6 @@ class Predicate:
         :param predicate_element: 
         :return: 
         """
-        # tmp = []
-        # for e in predicate_element:
-        #     try:
-        #         tmp.append(int(str(e)))
-        #     except ValueError:
-        #         tmp.append(str(e))
-        # if not (tmp in predicate.p_elements):
-        #     predicate.p_elements.append(tmp)
 
         x = ""
         for part in predicate_element:
@@ -105,7 +97,7 @@ class Predicate:
             predicate.p_elements.append(predicate_element)
 
 
-def print_why_hitting(to_keep):
+def print_Correction_Sets(to_keep):
     """
     print the reasons in a form of possible deletions
     :param reasons: 
@@ -216,9 +208,7 @@ def get_consequences(fourth, list_of_atoms_to_delete_before_start):
     white = []
     for lst in list_of_difference_white:
         white = set(white).union(lst)
-    # consequences = (set(consequences).intersection(white)).difference(set(atoms_to_consider))
     consequences = (set(white).difference(consequences)).difference(set(atoms_to_consider))
-    # consequences = set(add_point(set(consequences).difference(set(first_ever)))).difference(set(atoms_to_consider))
     return consequences
 
 
@@ -228,11 +218,7 @@ def check_unsatisfiability_facts(asp_file):
     :param asp_file: 
     :return: 
     """
-    # all_unsat = True
     list_of_unsat_objects = []
-    # path = asp_file[:asp_file.rfind("\\")] + "\\tmp\\tmp"
-    # for tmp_file in [f for f in os.listdir(path) if f.endswith('.txt')]:
-    #     tmp_file = path + "\\" + tmp_file
     facts = []
     rules = []
     prg = clingo.Control()
@@ -244,32 +230,6 @@ def check_unsatisfiability_facts(asp_file):
 
     prg.ground([("base", []), ("parts", [])])
     ret = prg.solve()
-        # if str(ret) != "SAT":
-        #     fs = open(tmp_file, "r")
-        #     lines = fs.readlines()
-        #     fs.close()
-        #     only_rules = False
-        #     for line in lines:
-        #         if "%%%% end of facts to test %%%%" in line:
-        #             only_rules = True
-        #         elif ":-" in line:
-        #             rules.append(line)
-        #         elif "%" != line[0] and not only_rules:
-        #             facts.append(line)
-        #         # if not rules_turn:
-        #         #     if "%%%% end of facts to test %%%%" not in line:
-        #         #         if ":-" not in line:
-        #         #             facts.append(line)
-        #         #     else:
-        #         #         rules_turn = True
-        #         #         unsatobject = UnsatObject(facts)
-        #         # else:
-        #         #     if ":-" in line:
-        #         #         unsatobject.add_rules()
-        #
-        #     list_of_unsat_objects.append(UnsatObject(rules=rules, facts=facts))
-        # else:
-        #     all_unsat = False
 
     for unsatobject in list_of_unsat_objects:
         length_in_question = len(unsatobject.facts)
@@ -277,9 +237,6 @@ def check_unsatisfiability_facts(asp_file):
             if set(unsatobject.facts).issubset(object_with_larger_list.facts):
                 del list_of_unsat_objects[list_of_unsat_objects.index(object_with_larger_list)]
 
-    # if all_unsat:
-    #     for e in list_of_unsat_objects:
-    #         e.facts = []
     return list_of_unsat_objects
 
 
@@ -361,10 +318,10 @@ def initial_display(clingo_return):
                         to_print.append(predicate)
             if to_print:
                 allowed_entries = set(to_print)
-                print('\033[1;33m' + "\nThe following options are available:\n" + '\033[0m')
+                print('\033[1;33m' + "\nThe following facets are available:\n" + '\033[0m')
                 print_options(to_print)
             else:
-                print('\033[1;33m' + "\nThe provided problem has nothing to be configured!\n" + '\033[0m')
+                print('\033[1;33m' + "\nThe provided problem has no facets!\n" + '\033[0m')
                 conf_pr = False
 
 
@@ -463,18 +420,6 @@ def translator_not(asp_file):
         return None
     prg.ground([("base", []), ("parts", [])])
     ret = prg.solve(on_model=model_function_not)
-    # i = 0
-    # for model in list_of_predicates_not_to_negate:
-    #     print('\033[1;33m' + "\nAnswer Set %i" % (i+1) + '\033[0m')
-    #     for predicate in model:
-    #         print("\n" + "instances of " + predicate.p_name + ":\n")
-    #         for argument in predicate.p_elements:
-    #             x = ""
-    #             for part in argument:
-    #                 x = x + str(part) + ','
-    #             x = x[:-1]
-    #             print (predicate.p_name + "(" + x + ")")
-    #     i += 1
     if str(ret) == "SAT":
         if init_first_answer_set:
             first_ever = list_of_predicates_not_to_negate
@@ -579,7 +524,6 @@ def model_function(model):
     :param model: 
     :return: 
     """
-    # assert isinstance(model, clingo.Model)
     found = False
     global list_of_predicates, list_of_predicates_not_to_negate
     list_of_predicates = []
@@ -592,12 +536,6 @@ def model_function(model):
 
             predicate = Predicate(tmp + atom.name)
             Predicate.add_elements(predicate, atom.arguments)
-
-            # for argument in [predicate.p_elements[len(predicate.p_elements) - 1]]:
-            #     x = ""
-            #     for part in argument:
-            #         x = x + str(part) + ','
-            #     x = x[:-1]
 
             if predicate.p_name + "(" + predicate.p_elements[len(predicate.p_elements) - 1] + ")" not in first_ever:
 
@@ -612,11 +550,6 @@ def model_function(model):
                 if list_of_predicates[i].p_name == atom.name:
                     predicate = list_of_predicates[i]
                     Predicate.add_elements(predicate, atom.arguments)
-                    # for argument in [predicate.p_elements[len(predicate.p_elements) - 1]]:
-                    #     x = ""
-                    #     for part in argument:
-                    #         x = x + str(part) + ','
-                    #     x = x[:-1]
                     if predicate.p_name + "(" + predicate.p_elements[len(predicate.p_elements) - 1] + ")" not in first_ever:
                         name_in_list = [x for x in list_of_predicates if x.p_name == negate(atom.name)]
                         if len(name_in_list) > 0:
@@ -631,12 +564,6 @@ def model_function(model):
             if not found:
                 predicate = Predicate(tmp + atom.name)
                 Predicate.add_elements(predicate, atom.arguments)
-
-                # for argument in [predicate.p_elements[len(predicate.p_elements) - 1]]:
-                    # x = ""
-                    # for part in argument:
-                    #     x = x + str(part) + ','
-                    # x = x[:-1]
                 if predicate.p_name + "(" + predicate.p_elements[len(predicate.p_elements) - 1] + ")" not in first_ever:
 
                     list_of_predicates.append(predicate)
@@ -718,43 +645,23 @@ def compare(old_model, new_model, deep_investigation):
                 ind = [x for x in list_of_indices if x.p_name == p_name][0].p_index
 
                 for argument in new_model[ind].p_elements:
-                    # x = ""
-                    # for part in argument:
-                    #     x = x + str(part) + ','
-                    # x = x[:-1]
                     tmp_blue.append(new_model[ind].p_name + "(" + argument + ")")
 
                 for_sure_blue = list_of_difference_white[ind]
-                # for_sure_blue = list(set(tmp_blue).intersection(list_of_predicates_not_to_negate))
 
                 for element in for_sure_blue:
 
                     predicate_name = element[:element.index("(")]
                     predicate_name = negate(predicate_name)
 
-                    #predicate_elements = []
                     x = ""
                     for e in element[element.find("(") + 1:element.rfind(")")].split(","):
-                        #try:
-                        #    predicate_elements.append(int(x))
                         x = x + str(e) + ','
                     x = x[:-1]
-                        #except ValueError:
-                        #    predicate_elements.append(str(x))
-
-                    #predicate = predicate_name + str(predicate_elements)
                     predicate = predicate_name + "(" + x + ")"
 
                     list_of_difference_red[i].append(predicate)
 
-        # if input_list:
-        #     intermediate_check(asp_file_name, input_list)
-        #     if union_of_answers_without_c:
-        #         modify_red_blue()
-
-        # print_red_blue_white()
-
-        # l njme 3'alat
         if deep_investigation:
             start = '\033[95m'
             end = '\033[0m'
@@ -794,21 +701,21 @@ def print_red_blue_white():
     three = True
     print("-----------------------------\n")
     if len(set(tuple(i) for i in list_of_difference_red).intersection(set(tuple(i) for i in list_of_difference_red))) > 1:
-        print_options(["Unavailable Options:"], '\033[1;33m')
+        print_options(["Unavailable Facets:"], '\033[1;33m')
         for lst in list_of_difference_red:
             print_options(lst, '\033[1;31m')
     else:
         one = False
     if one:
         if len(set(tuple(i) for i in list_of_difference_blue).intersection(set(tuple(i) for i in list_of_difference_blue))) > 1:
-            print_options(["Available Options:"], '\033[1;33m')
+            print_options(["Available Facets:"], '\033[1;33m')
             for lst in list_of_difference_blue:
                 print_options(lst, '\033[1;34m')
         else:
             two = False
 
         if len(set(tuple(i) for i in list_of_difference_white).intersection(set(tuple(i) for i in list_of_difference_white))) > 1:
-            print_options(["Final Configuration:"], '\033[1;33m')
+            print_options(["Active Facets:"], '\033[1;33m')
             for lst in list_of_difference_white:
                 print_options(lst)
         else:
@@ -840,8 +747,6 @@ def was_sat_inspection(asp_file_name, input_list):
 
         for element in list_of_added_knowledge:
             predicate_name = element[:element.index("(")]
-            #predicate_elements = element[element.find("(")+1:element.rfind(")")]
-            #predicate = predicate_name + "[" + predicate_elements + "]"
             predicate = element[:len(element)-1]
 
             red_index = 0
@@ -970,9 +875,7 @@ def handle_input(asp_file_name):
     :return:
     """
     global list_of_added_knowledge, first_run, list_of_predicates_names, input_list, logs
-    display_text = '\033[1;33m' + "Here you can apply your choices by adding atoms (ex: xx(y1,y2) / #not xx(y1,y3)) or\ntype \"#del\" " \
-                                "plus the atoms you want to delete separated by \"/\" or\n\"delall\" to delete all the added atoms.\n" \
-                   + '\033[0m'
+
     display_text2 = '\033[1;33m' + "Type help to list commands\n" + '\033[0m'
     input_text = ""
     if first_run:
@@ -992,9 +895,6 @@ def handle_input(asp_file_name):
                 if input_list:
                     tmp = [e for e in input_list if e]
                     tmp = add_point(tmp)
-
-                    # input_list = [e for e in tmp if e.split("(")[0] in list_of_predicates_names]
-                    # update_configurables()
 
                     input_list = [e for e in tmp if e in update_configurables()]  # allowed_entries]
                     show_bad_input(input_list, tmp)
@@ -1063,63 +963,29 @@ def handle_input(asp_file_name):
                     if input_list[0] in add_point(diagnosis.converter(list_of_difference_red)):
                         if not diagnosis.simple_inconsistency_chech(list_of_added_knowledge, input_list[0]):
 
-                            # all minimal fixes
-                            # diagnosis.create_original(list_of_added_knowledge, asp_file_name)
-                            # minimal_fixes = HST.all_minimal(list_of_added_knowledge, input_list[0], asp_file_name)
-                            # print_why_hitting(minimal_fixes)
-                            # all minimal fixes
-
-                            # delta = set(list_of_added_knowledge).union(add_point(diagnosis.converter(list_of_difference_white)))
-                            # reasons = diagnosis.find_minimal_conflict_sets_optimized(list_of_added_knowledge, input_list[0], asp_file_name)
-
-                            # with hitting sets
-
                             diagnosis.create_original(list_of_added_knowledge, asp_file_name)
                             start = datetime.datetime.now()
-                            # conflict_sets = HST.cs_generator_2(list_of_added_knowledge, input_list[0], asp_file_name)
                             correction_sets = correctionset.cs_generator_2(list_of_added_knowledge, input_list[0], asp_file_name)
-                            # conflict_sets = HST.cs_generator_py(list_of_added_knowledge, input_list[0], asp_file_name)
-                            # reasons = HST.create_hs_dag(conflict_sets)
-
-                            # reasons = HST.mcs_filter(conflict_sets)
                             print (datetime.datetime.now() - start)
-                            print_why_hitting(correction_sets)
-
-                            # with hitting sets
-
-                            # test modified ASP
-                            # diagnosis.create_original(list_of_added_knowledge, asp_file_name)
-                            # start = datetime.datetime.now()
-                            # to_keep = Magic_ASP.extend_original(list_of_added_knowledge, input_list[0], asp_file_name)
-                            # print (datetime.datetime.now() - start)
-                            # print_why_modified_asp(to_keep)
-                            # test modified ASP
-
-                            # good code
-                            # diagnosis.create_original(list_of_added_knowledge, asp_file_name)
-                            # start = datetime.datetime.now().replace(microsecond=0)
-                            # reasons = diagnosis.build_all(list_of_added_knowledge, input_list[0], asp_file_name)
-                            # print (datetime.datetime.now().replace(microsecond=0) - start)
-                            # print_why(reasons)
-                            # good code
+                            print_Correction_Sets(correction_sets)
                         else:
                             print("Because you have already selected " + negate(input_list[0]))
                     else:
                         print("The question must be about an element of the unavailable options ")
 
             elif "help" in input_text.lower():
-                help_text = ["Literal", "ex: xx(y1,y2)\n",
-                             "Extended Literal", "ex: #not xx(y1,y2)\n",
-                             "Delete specific selections", "ex: #del xx(y1,y2)\n",
-                             "Show Dependency", "ex: #what xx(y1,y2)\n",
-                             "Generate Fixes", "ex: #how xx(y1,y2)\n",
-                             "Delete All selections", "delall\n",
-                             "List All selected options", "lk\n",
-                             "Display Options", "show\n",
-                             "Close the Program", "exit\n\n",
+                help_text = ["Apply a nav. step using an inclusive facet", "ex: p(y1,y2)\n",
+                             "Apply a nav. step using an exclusive facet", "ex: #not p(y1,y2)\n",
+                             "Retract a specific facet", "ex: #del p(y1,y2)\n",
+                             "Show the consequences of removing certain facets", "ex: #what p(y1,y2)\n",
+                             "Calculate all minimal correction sets w.r.t. some facet", "ex: #how p(y1,y2)\n",
+                             "Retract all facets", "delall\n",
+                             "List all applied facets", "lk\n",
+                             "Display active / inactive facets", "show\n",
+                             "Terminate the program", "exit\n\n",
                              "*Note* Multiple entries and deletions must be separated by \"/\"", "\n"]
                 for i in range(0, len(help_text), 2):
-                    print('{:<30}  {:<30}'.format(help_text[i], help_text[i+1]))
+                    print('{:<60}  {:60}'.format(help_text[i], help_text[i+1]))
 
             elif "show" in input_text.lower():
                 print_red_blue_white()
@@ -1299,7 +1165,6 @@ def main():
         else:
             was_sat = False
 
-        # here is the second part of the program
         if was_sat:
             first_run = True
 
