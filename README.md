@@ -43,9 +43,7 @@ List all applied facets                                       lk
 Display active / inactive facets                              show
                                                        
 Terminate the program                                         exit
-                                                      
-*Note* Multiple entries and deletions must be separated by "/"  
-
+                                                       
 ```
 ## Navigation Example
 
@@ -114,4 +112,5 @@ or
 
 ### Remarks
 
-Input programs must not have the ```#show``` command because it creates a problem in desplaying the correction sets.
+Input programs must not have the ```#show``` command because it creates a problem in desplaying the correction sets.\
+Removing multiple facets, as well as the inquiry about the consequences of removing multiple facets is possible; facets must be seperated by "/".
