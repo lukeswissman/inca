@@ -93,7 +93,7 @@ color(6,b)  color(1,b)  not color(3,b)  not color(4,b)  not color(6,r)
 not color(1,r)  not color(3,r)  not color(4,r)  not color(6,b)  not color(1,b)  
 
 
-Active Facets:  
+Chosen Facets:  
 -------------
 
 color(5,g)  color(2,g)  
