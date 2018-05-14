@@ -715,7 +715,7 @@ def print_red_blue_white():
             two = False
 
         if len(set(tuple(i) for i in list_of_difference_white).intersection(set(tuple(i) for i in list_of_difference_white))) > 1:
-            print_options(["Active Facets:"], '\033[1;33m')
+            print_options(["Chosen Facets:"], '\033[1;33m')
             for lst in list_of_difference_white:
                 print_options(lst)
         else:
