@@ -42,8 +42,9 @@ List all applied facets                                       lk
                                                          
 Display active / inactive facets                              show
                                                        
-Terminate the program                                         exit                                                       
+Terminate the program                                         exit
 ```
+
 ## Navigation Example
 
 The following is an example of the faceted navigation of the graph coloring problem with 3 colors.
