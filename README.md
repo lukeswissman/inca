@@ -69,7 +69,7 @@ edge(1,(2;6)).   edge(2,(1;3;4)).  edge(3,(2;4;5)).
 edge(4,(2;3;5)). edge(5,(3;4;6)).  edge(6,(1;5)).
 ```
 
-To apply a navigation step, a facet from the available one must be chosen, in our example we choose the color of node 2 to be green by typing ```color(2,g).``` \
+To apply a navigation step, a facet from the available one must be chosen, in our example we choose the color of node 2 to be green by typing `color(2,g).` \
 This selection implies that node 5 must be green as well, therfore the user's confirmation is required. Afterwards three lists would be displayed
 
 ```
@@ -97,14 +97,15 @@ Chosen Facets:
 color(5,g)  color(2,g)  
 ```
 
-After applying ```color(1,b).``` and then ```#not color(3,r).```, we reach the end of the navigation because there are no more facets to apply any additional steps.
+After applying `color(1,b).` and then `#not color(3,r).`, we reach the end of the navigation because there are no more facets to apply any additional steps.
 
-Computing all minimal correction sets of the current program with respect to ```#not color(4,r).``` can be ashieved via typing ```#how #not color(4,r).```
+Computing all minimal correction sets of the current program with respect to `#not color(4,r).` can be achieved via `#how #not color(4,r).`
 
 ```
 Total number of correction sets = 2
 
-To be able to select not color(4,r) you have to remove 
+To be able to select not color(4,r) you have to remove
+	
 	color(2,g)
 or
 	not color(3,r)
@@ -112,5 +113,5 @@ or
 
 ### Remarks
 
-Input programs must not have the ```#show``` command because it creates a problem in desplaying the correction sets.\
+Input programs must not have the `#show` command because it creates a problem in desplaying the correction sets.\
 Removing multiple facets, as well as the inquiry about the consequences of removing multiple facets is possible; facets must be seperated by "/".
